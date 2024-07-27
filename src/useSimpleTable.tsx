@@ -1,7 +1,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 
-import { IndeterminateCheckbox } from "./components/IndeterminateCheckbox";
+// import { IndeterminateCheckbox } from "./components/IndeterminateCheckbox";
 
 export type PersonRow = {
   id: string;
@@ -15,28 +15,32 @@ export function useTable() {
 
   const columns = useMemo(
     () => [
-      columnHelper.display({
-        id: "select",
-        header: ({ table }) => (
-          <IndeterminateCheckbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-        ),
-        cell: ({ row }) => (
-          <IndeterminateCheckbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        ),
-      }),
+      // columnHelper.display({
+      //   id: "select",
+      //   header: ({ table }) => (
+      //     <IndeterminateCheckbox
+      //       {...{
+      //         checked: table.getIsAllRowsSelected(),
+      //         indeterminate: table.getIsSomeRowsSelected(),
+      //         onChange: table.getToggleAllRowsSelectedHandler(),
+      //       }}
+      //     />
+      //   ),
+      //   cell: ({ row }) => (
+      //     <IndeterminateCheckbox
+      //       {...{
+      //         checked: row.getIsSelected(),
+      //         disabled: !row.getCanSelect(),
+      //         indeterminate: row.getIsSomeSelected(),
+      //         onChange: row.getToggleSelectedHandler(),
+      //       }}
+      //     />
+      //   ),
+      // }),
+      // columnHelper.accessor("id", {
+      //   header: () => <></>,
+      //   cell: () => <></>,
+      // }),
       columnHelper.accessor("firstName", {
         cell: (info) => info.getValue(),
       }),
