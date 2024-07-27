@@ -28,7 +28,7 @@ export function SimpleTable() {
     },
   });
 
-  const allIds = ["AAA", "BBB", "CCC"];
+  const allIds = ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF"];
 
   /**
    * TableにわたすデータはuseState,useMemoで管理されたデータを渡す必要がある

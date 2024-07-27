@@ -19,4 +19,22 @@ export const defaultData: PersonRow[] = [
     lastName: "dirte",
     age: 45,
   },
+  {
+    id: "DDD",
+    firstName: "first",
+    lastName: "last",
+    age: 30,
+  },
+  {
+    id: "EEE",
+    firstName: "type",
+    lastName: "script",
+    age: 35,
+  },
+  {
+    id: "FFF",
+    firstName: "go",
+    lastName: "lang",
+    age: 20,
+  },
 ];
