@@ -17,6 +17,7 @@ type Schema = z.infer<typeof schema>;
 export function SimpleTable() {
   const {
     control,
+    watch,
     getValues: formGetValues,
     setValue: formSetValue,
   } = useForm<Schema>({
@@ -43,13 +44,15 @@ export function SimpleTable() {
     debugTable: true,
   });
 
+  const ids = watch("ids");
+
   const show = () => {
     console.log("form values:", formGetValues());
   };
 
   return (
     <div>
-      <button type="submit">update</button>
+      <div>number of choices: {Object.keys(ids).length}</div>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -118,7 +121,7 @@ export function SimpleTable() {
           ))}
         </tbody>
       </table>
-      <button onClick={show}>show</button>
+      <button onClick={show}>Show on console</button>
     </div>
   );
 }
