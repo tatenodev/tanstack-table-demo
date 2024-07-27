@@ -25,6 +25,7 @@ export function SimpleTable() {
 
   return (
     <div>
+      <button type="submit">update</button>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
