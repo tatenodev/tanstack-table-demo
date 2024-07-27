@@ -1,10 +1,34 @@
 import { useState } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller } from "react-hook-form";
+import * as z from "zod";
 
 import { useTable } from "../useSimpleTable";
 import { defaultData } from "../data/tableDefaultData";
 
+const schema = z.object({
+  meta: z.string(),
+  ids: z.record(z.number(), z.string()),
+});
+
+type Schema = z.infer<typeof schema>;
+
 export function SimpleTable() {
+  const {
+    control,
+    getValues: formGetValues,
+    setValue: formSetValue,
+  } = useForm<Schema>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      meta: "test",
+      ids: {},
+    },
+  });
+
+  const allIds = ["AAA", "BBB", "CCC"];
+
   /**
    * TableにわたすデータはuseState,useMemoで管理されたデータを渡す必要がある
    * @see {@link https://tanstack.com/table/v8/docs/guide/data#give-data-a-stable-reference}
@@ -19,8 +43,8 @@ export function SimpleTable() {
     debugTable: true,
   });
 
-  const foo = () => {
-    console.log(table.getRow("1").getAllCells()[0].row);
+  const show = () => {
+    console.log("form values:", formGetValues());
   };
 
   return (
@@ -31,7 +55,25 @@ export function SimpleTable() {
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               <th>
-                <input type="checkbox" />
+                <Controller
+                  name="ids"
+                  control={control}
+                  render={() => (
+                    <>
+                      <input
+                        type="checkbox"
+                        checked={allIds.length === Object.keys(formGetValues("ids")).length}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            formSetValue("ids", { ...allIds });
+                          } else {
+                            formSetValue("ids", {});
+                          }
+                        }}
+                      ></input>
+                    </>
+                  )}
+                />
               </th>
               {headerGroup.headers.map((header) => (
                 <th key={header.id}>
@@ -45,7 +87,29 @@ export function SimpleTable() {
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               <td>
-                <input type="checkbox" />
+                <Controller
+                  name={"ids"}
+                  control={control}
+                  render={() => (
+                    <>
+                      <input
+                        type="checkbox"
+                        checked={!!formGetValues("ids")[row.index]}
+                        onChange={(e) => {
+                          const values = formGetValues("ids");
+                          const userId = row.getValue<string>("id");
+                          if (e.target.checked) {
+                            formSetValue("ids", { ...values, [row.index]: userId });
+                          } else {
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                            const { [row.index]: _, ...rest } = values;
+                            formSetValue("ids", rest);
+                          }
+                        }}
+                      ></input>
+                    </>
+                  )}
+                />
               </td>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
@@ -54,7 +118,7 @@ export function SimpleTable() {
           ))}
         </tbody>
       </table>
-      <button onClick={foo}>foo</button>
+      <button onClick={show}>show</button>
     </div>
   );
 }

@@ -37,16 +37,16 @@ export function useTable() {
       //     />
       //   ),
       // }),
-      // columnHelper.accessor("id", {
-      //   header: () => <></>,
-      //   cell: () => <></>,
-      // }),
+      columnHelper.accessor("id", {
+        header: () => <></>,
+        cell: () => <></>,
+      }),
       columnHelper.accessor("firstName", {
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor("lastName", {
         cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>Last Nam222e</span>,
+        header: () => <span>Last Name</span>,
       }),
       columnHelper.accessor("age", {
         header: () => "Age",
