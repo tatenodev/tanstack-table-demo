@@ -32,8 +32,7 @@ const newPerson = (): Person => {
 export function makeData(...lens: number[]) {
   const makeDataLevel = (depth = 0): Person[] => {
     const len = lens[depth]!;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return range(len).map((d): Person => {
+    return range(len).map((): Person => {
       return {
         ...newPerson(),
         subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
