@@ -1,10 +1,9 @@
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { PersonRow, useTable } from "../useSimpleTable";
+import { useState } from "react";
 
 export function SimpleTable() {
-  const { columns } = useTable();
-
-  const tableData: PersonRow[] = [
+  const defaultData: PersonRow[] = [
     {
       id: "AAA",
       firstName: "tanner",
@@ -25,8 +24,15 @@ export function SimpleTable() {
     },
   ];
 
+  /**
+   * TableにわたすデータはuseState,useMemoで管理されたデータを渡す必要がある
+   * @see {@link https://tanstack.com/table/v8/docs/guide/data#give-data-a-stable-reference}
+   */
+  const [data] = useState(defaultData);
+  const { columns } = useTable();
+
   const table = useReactTable({
-    data: tableData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     // enableRowSelection: true,
