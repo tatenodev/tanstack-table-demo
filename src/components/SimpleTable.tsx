@@ -66,11 +66,12 @@ export function SimpleTable() {
                 <Controller
                   name="ids"
                   control={control}
-                  render={() => (
+                  render={(data) => (
                     <>
                       <input
                         type="checkbox"
-                        checked={allIds.length === Object.keys(formGetValues("ids")).length}
+                        // checked={allIds.length === Object.keys(formGetValues("ids")).length}
+                        checked={allIds.length === Object.keys(data.field.value).length}
                         onChange={(e) => {
                           if (e.target.checked) {
                             formSetValue("ids", { ...allIds });
@@ -100,19 +101,20 @@ export function SimpleTable() {
                   name={"ids"} // ok
                   // name={`ids.${row.index}`} -> ng
                   control={control}
-                  render={() => (
+                  render={(data) => (
                     <>
                       <input
                         type="checkbox"
-                        checked={!!formGetValues("ids")[row.index]}
+                        // checked={!!formGetValues("ids")[row.index]}
+                        checked={!!data.field.value[row.index]}
                         onChange={(e) => {
-                          const values = formGetValues("ids");
+                          // const values = formGetValues("ids");
                           const userId = row.getValue<string>("id");
                           if (e.target.checked) {
-                            formSetValue("ids", { ...values, [row.index]: userId });
+                            formSetValue("ids", { ...data.field.value, [row.index]: userId });
                           } else {
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                            const { [row.index]: _, ...rest } = values;
+                            const { [row.index]: _, ...rest } = data.field.value;
                             formSetValue("ids", rest);
                           }
                         }}
