@@ -123,9 +123,9 @@ export function SimpleTable() {
                         checked={!!data.field.value[row.index]}
                         onChange={(e) => {
                           // const userId = row.getValue<string>("id");
-                          const userId = table.options.meta?.ids[row.index];
                           if (e.target.checked) {
-                            userId && formSetValue("ids", { ...data.field.value, [row.index]: userId });
+                            const userId = table.options.meta?.ids[row.index];
+                            formSetValue("ids", { ...data.field.value, [row.index]: userId ?? "" });
                           } else {
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             const { [row.index]: _, ...rest } = data.field.value;
