@@ -40,6 +40,7 @@ export function SimpleTable() {
   });
 
   const allIds = defaultData.map((data) => data.id);
+  const formatAllIds = { ...allIds };
 
   /**
    * TableにわたすデータはuseState,useMemoで管理されたデータを渡す必要がある
@@ -53,9 +54,6 @@ export function SimpleTable() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     debugTable: true,
-    meta: {
-      ids: { ...allIds },
-    },
   });
 
   const ids = watch("ids");
@@ -124,7 +122,7 @@ export function SimpleTable() {
                         onChange={(e) => {
                           // const userId = row.getValue<string>("id");
                           if (e.target.checked) {
-                            const userId = table.options.meta?.ids[row.index];
+                            const userId = formatAllIds[row.index]; // formatAllIds[row.index + ((page - 1) * pageSize)]
                             formSetValue("ids", { ...data.field.value, [row.index]: userId ?? "" });
                           } else {
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
