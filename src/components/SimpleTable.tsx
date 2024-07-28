@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { RowData } from "@tanstack/table-core";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
@@ -6,6 +7,16 @@ import * as z from "zod";
 
 import { useTable } from "../useSimpleTable";
 import { defaultData } from "../data/tableDefaultData";
+
+declare module "@tanstack/table-core" {
+  /**
+   * @see {@link https://github.com/TanStack/table/discussions/5222}
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  interface TableMeta<TData extends RowData> {
+    ids: { [key: number]: string };
+  }
+}
 
 const schema = z.object({
   meta: z.string(),
@@ -42,6 +53,9 @@ export function SimpleTable() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     debugTable: true,
+    meta: {
+      ids: { ...allIds },
+    },
   });
 
   const ids = watch("ids");
@@ -108,10 +122,10 @@ export function SimpleTable() {
                         // checked={!!formGetValues("ids")[row.index]}
                         checked={!!data.field.value[row.index]}
                         onChange={(e) => {
-                          // const values = formGetValues("ids");
-                          const userId = row.getValue<string>("id");
+                          // const userId = row.getValue<string>("id");
+                          const userId = table.options.meta?.ids[row.index];
                           if (e.target.checked) {
-                            formSetValue("ids", { ...data.field.value, [row.index]: userId });
+                            userId && formSetValue("ids", { ...data.field.value, [row.index]: userId });
                           } else {
                             // eslint-disable-next-line @typescript-eslint/no-unused-vars
                             const { [row.index]: _, ...rest } = data.field.value;

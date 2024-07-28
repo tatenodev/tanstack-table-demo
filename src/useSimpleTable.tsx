@@ -37,10 +37,10 @@ export function useTable() {
       //     />
       //   ),
       // }),
-      columnHelper.accessor("id", {
-        header: () => <></>,
-        cell: () => <></>,
-      }),
+      // columnHelper.accessor("id", {
+      //   header: () => <></>,
+      //   cell: () => <></>,
+      // }),
       columnHelper.accessor("firstName", {
         cell: (info) => info.getValue(),
       }),
