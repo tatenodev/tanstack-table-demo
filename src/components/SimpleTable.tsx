@@ -28,7 +28,7 @@ export function SimpleTable() {
     },
   });
 
-  const allIds = ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF"];
+  const allIds = defaultData.map((data) => data.id);
 
   /**
    * TableにわたすデータはuseState,useMemoで管理されたデータを渡す必要がある
@@ -50,9 +50,14 @@ export function SimpleTable() {
     console.log("form values:", formGetValues());
   };
 
+  const handleDeselect = () => {
+    formSetValue("ids", {});
+  };
+
   return (
     <div>
       <div>number of choices: {Object.keys(ids).length}</div>
+      <button onClick={handleDeselect}>deselect</button>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
