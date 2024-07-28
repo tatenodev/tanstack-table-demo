@@ -96,7 +96,9 @@ export function SimpleTable() {
             <tr key={row.id}>
               <td>
                 <Controller
-                  name={"ids"}
+                  // TODO: check!!
+                  name={"ids"} // ok
+                  // name={`ids.${row.index}`} -> ng
                   control={control}
                   render={() => (
                     <>
